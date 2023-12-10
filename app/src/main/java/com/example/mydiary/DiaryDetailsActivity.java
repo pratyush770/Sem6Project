@@ -34,7 +34,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
     ImageView saveBtn,changingImg;
     TextView pageTitle; // used to change the title when user edits the note
     String getTitle,getContent,docId;
-    Button btn;
+    Button btn,clearImageButton;
     boolean isEditMode = false;
     TextView delete;
     private final int GALLERY_REQ_CODE = 1000;
@@ -52,6 +52,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         delete = findViewById(R.id.textView6);
         changingImg = findViewById(R.id.changingImg);
         btn = findViewById(R.id.button);
+        clearImageButton = findViewById(R.id.clearImageButton); // Initialize the clearImageButton
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +60,15 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                 Intent iGallery = new Intent(Intent.ACTION_PICK);
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery,GALLERY_REQ_CODE);
+            }
+        });
+        // Set the onClickListener for clearing the selected image
+        clearImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Clear the selected image
+                selectedImageUri = null;
+                changingImg.setImageDrawable(null); // Clear the ImageView
             }
         });
 
@@ -122,24 +132,35 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         }
     }
 
-
-    public void deleteDiaryFromFireBase()
-    {
+    public void deleteDiaryFromFireBase() {
         DocumentReference documentReference;
         documentReference = Utility.getCollectionReferenceForNotes().document(docId);
-        documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        // Get the StorageReference for the image associated with the diary entry
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                .child("diary_images/" + docId + ".jpg");
+
+        // Delete the image from Firebase Storage
+        storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    // note is added in the database
-                    // Utility.showToast(NoteDetailsActivity.this,"Note deleted successfully");
-                    finish();
-                }
-                else
-                {
-                    // note is not added in the database
-                    Utility.showToast(DiaryDetailsActivity.this,"Failed to delete note");
+                if (task.isSuccessful()) {
+                    // Image deleted successfully, now delete the diary entry
+                    documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Diary entry deleted successfully
+                                finish();
+                            } else {
+                                // Diary entry not deleted
+                                Utility.showToast(DiaryDetailsActivity.this, "Failed to delete note");
+                            }
+                        }
+                    });
+                } else {
+                    // Image deletion failed
+                    Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
                 }
             }
         });
