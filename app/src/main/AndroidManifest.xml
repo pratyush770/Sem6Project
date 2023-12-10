@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
 
@@ -18,7 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNotesWriteYourOwnNotes"
         tools:targetApi="31">
-
         <activity
             android:name=".DiaryDetailsActivity"
             android:exported="false" />
@@ -42,7 +42,7 @@
         </activity>
         <receiver
             android:process=":remote"
-            android:name=".ReminderReceiver"/>
+            android:name=".ReminderReceiver" />
     </application>
 
 </manifest>

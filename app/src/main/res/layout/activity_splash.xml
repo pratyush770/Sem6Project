@@ -5,7 +5,7 @@
     android:id="@+id/size"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4169e1"
+    android:background="#2542E4"
     tools:context=".SplashActivity">
 
     <ImageView
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.402"
-        app:srcCompat="@drawable/note_icon" />
+        app:srcCompat="@drawable/diary" />
 
     <ProgressBar
         android:id="@+id/progressBar"

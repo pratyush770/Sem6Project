@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -91,24 +92,41 @@ public class MainActivity extends AppCompatActivity {
         diaryAdapter.notifyDataSetChanged();
     }
     private void setReminderAlarm() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_IMMUTABLE);  // Use FLAG_IMMUTABLE for PendingIntent used in AlarmManager);
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 
-        // Set the alarm to trigger at 8 PM every day
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 8); // 8:00 PM
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 0);
+        // Check if the alarm is already set
+        boolean isAlarmSet = preferences.getBoolean("isAlarmSet", false);
 
-        // Use setRepeating() to repeat the alarm every day
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-        );
+        if (!isAlarmSet) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, ReminderReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+            );
+
+            // Set the alarm to trigger at 8 PM every day
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 20); // 8 PM
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+
+            // Use setRepeating() to repeat the alarm every day
+            alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+            );
+
+            // Set the flag in SharedPreferences to indicate that the alarm is set
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isAlarmSet", true);
+            editor.apply();
+        }
     }
+
 
 }

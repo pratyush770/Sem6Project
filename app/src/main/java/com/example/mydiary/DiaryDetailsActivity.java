@@ -79,7 +79,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                         .into(changingImg);
             }).addOnFailureListener(exception -> {
                 // Handle errors during image retrieval
-                Utility.showToast(DiaryDetailsActivity.this, "Failed to retrieve image");
+//                Utility.showToast(DiaryDetailsActivity.this, "Failed to retrieve image");
             });
         }
         // gets the title and content of the note
@@ -92,27 +92,57 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         }
         delete.setOnClickListener((v)-> deleteDiaryFromFireBase());
     }
-    public void saveDiary(){
+    public void saveDiary() {
         String ntitle = title.getText().toString();
         String ncontent = content.getText().toString();
-        if(ntitle==null || ntitle.isEmpty()){
+
+        if (ntitle == null || ntitle.isEmpty()) {
             title.setError("Title is required");
+            return;  // Stop execution if title is empty
         }
-        if(ncontent==null || ncontent.isEmpty()){
+
+        if (ncontent == null || ncontent.isEmpty()) {
             content.setError("Content is required");
+            return;  // Stop execution if content is empty
         }
+
+        Diary diary = new Diary();
+        diary.setTitle(ntitle);
+        diary.setContent(ncontent);
+
+        // Set the timestamp to the current time
+        diary.setTimestamp(new Timestamp(new Date()));
+
         if (selectedImageUri != null) {
-            Diary diary = new Diary();
-            diary.setTitle(ntitle);
-            diary.setContent(ncontent);
-            // Set the timestamp to the current time
-            diary.setTimestamp(new Timestamp(new Date()));
+            // If an image is selected, save it to Firebase
             saveDiaryToFirebase(diary, selectedImageUri);
+        } else {
+            // If no image is selected, save the diary without an image
+            saveDiaryToFirebase(diary, null);
         }
-        else {
-            // Handle the case where no image is selected
-            Utility.showToast(DiaryDetailsActivity.this, "Please select an image");
-        }
+    }
+
+
+    public void deleteDiaryFromFireBase()
+    {
+        DocumentReference documentReference;
+        documentReference = Utility.getCollectionReferenceForNotes().document(docId);
+        documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                {
+                    // note is added in the database
+                    // Utility.showToast(NoteDetailsActivity.this,"Note deleted successfully");
+                    finish();
+                }
+                else
+                {
+                    // note is not added in the database
+                    Utility.showToast(DiaryDetailsActivity.this,"Failed to delete note");
+                }
+            }
+        });
     }
     public void saveDiaryToFirebase(Diary diary, Uri imageUri) {
         DocumentReference documentReference;
@@ -147,11 +177,11 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                                 // Set other diary fields
                                 documentReference.set(diary).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        // Diary is added in the database
+                                        // Diary is added or updated in the database
                                         finish();
                                     } else {
-                                        // Diary is not added in the database
-                                        Utility.showToast(DiaryDetailsActivity.this, "Failed to add diary");
+                                        // Diary is not added or updated in the database
+                                        Utility.showToast(DiaryDetailsActivity.this, "Failed to add or update diary");
                                     }
                                 });
                             });
@@ -164,31 +194,19 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            // Handle the case where no image is selected
-            Utility.showToast(DiaryDetailsActivity.this, "Please select an image");
+            // No image selected, set other diary fields and update the database
+            documentReference.set(diary).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Diary is added or updated in the database
+                    finish();
+                } else {
+                    // Diary is not added or updated in the database
+                    Utility.showToast(DiaryDetailsActivity.this, "Failed to add or update diary");
+                }
+            });
         }
     }
-    public void deleteDiaryFromFireBase()
-    {
-        DocumentReference documentReference;
-        documentReference = Utility.getCollectionReferenceForNotes().document(docId);
-        documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    // note is added in the database
-                    // Utility.showToast(NoteDetailsActivity.this,"Note deleted successfully");
-                    finish();
-                }
-                else
-                {
-                    // note is not added in the database
-                    Utility.showToast(DiaryDetailsActivity.this,"Failed to delete note");
-                }
-            }
-        });
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
