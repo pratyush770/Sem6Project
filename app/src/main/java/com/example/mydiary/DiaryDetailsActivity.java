@@ -1,29 +1,44 @@
 package com.example.mydiary;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 
 public class DiaryDetailsActivity extends AppCompatActivity {
     EditText title,content;
-    ImageView saveBtn;
+    ImageView saveBtn,changingImg;
     TextView pageTitle; // used to change the title when user edits the note
     String getTitle,getContent,docId;
+    Button btn;
     boolean isEditMode = false;
     TextView delete;
+    private final int GALLERY_REQ_CODE = 1000;
+    private Uri selectedImageUri; // Variable to store the selected image URI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +50,17 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         saveBtn.setOnClickListener((v)->saveDiary());
         pageTitle = findViewById(R.id.textView3);
         delete = findViewById(R.id.textView6);
+        changingImg = findViewById(R.id.changingImg);
+        btn = findViewById(R.id.button);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iGallery = new Intent(Intent.ACTION_PICK);
+                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(iGallery,GALLERY_REQ_CODE);
+            }
+        });
 
         // receive data of specific note
         getTitle = getIntent().getStringExtra("title");
@@ -43,6 +69,18 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         if(docId!=null && !docId.isEmpty())
         {
             isEditMode = true;
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                    .child("diary_images/" + docId + ".jpg");
+
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                // Load the image using the retrieved URL into your ImageView (changingImg)
+                Glide.with(this)
+                        .load(uri)
+                        .into(changingImg);
+            }).addOnFailureListener(exception -> {
+                // Handle errors during image retrieval
+                Utility.showToast(DiaryDetailsActivity.this, "Failed to retrieve image");
+            });
         }
         // gets the title and content of the note
         title.setText(getTitle);
@@ -63,42 +101,72 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         if(ncontent==null || ncontent.isEmpty()){
             content.setError("Content is required");
         }
-        Diary diary = new Diary();
-        diary.setTitle(ntitle);
-        diary.setContent(ncontent);
-        // Set the timestamp to the current time
-        diary.setTimestamp(new Timestamp(new Date()));
-        saveDiaryToFirebase(diary);
+        if (selectedImageUri != null) {
+            Diary diary = new Diary();
+            diary.setTitle(ntitle);
+            diary.setContent(ncontent);
+            // Set the timestamp to the current time
+            diary.setTimestamp(new Timestamp(new Date()));
+            saveDiaryToFirebase(diary, selectedImageUri);
+        }
+        else {
+            // Handle the case where no image is selected
+            Utility.showToast(DiaryDetailsActivity.this, "Please select an image");
+        }
     }
-    public void saveDiaryToFirebase(Diary diary)
-    {
+    public void saveDiaryToFirebase(Diary diary, Uri imageUri) {
         DocumentReference documentReference;
-        if(isEditMode)
-        {
+
+        if (isEditMode) {
             // updates the note
             documentReference = Utility.getCollectionReferenceForNotes().document(docId);
-        }
-        else
-        {
+        } else {
             // creates the note
             documentReference = Utility.getCollectionReferenceForNotes().document();
         }
-        documentReference.set(diary).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    // note is added in the database
-                    // Utility.showToast(NoteDetailsActivity.this,"Note added successfully");
-                    finish();
-                }
-                else
-                {
-                    // note is not added in the database
-                    Utility.showToast(DiaryDetailsActivity.this,"Failed to add note");
-                }
+
+        if (imageUri != null) {
+            // Compress the image before uploading
+            try {
+                Bitmap yourBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                yourBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                // Upload the compressed image to Firebase Storage
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                        .child("diary_images/" + documentReference.getId() + ".jpg");
+
+                storageReference.putBytes(data)
+                        .addOnSuccessListener(taskSnapshot -> {
+                            // Get the download URL of the uploaded image
+                            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                // Set the image URL in the diary object
+                                diary.setImageUrl(uri.toString());
+
+                                // Set other diary fields
+                                documentReference.set(diary).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        // Diary is added in the database
+                                        finish();
+                                    } else {
+                                        // Diary is not added in the database
+                                        Utility.showToast(DiaryDetailsActivity.this, "Failed to add diary");
+                                    }
+                                });
+                            });
+                        })
+                        .addOnFailureListener(exception -> {
+                            // Handle errors during image upload
+                            Utility.showToast(DiaryDetailsActivity.this, "Failed to upload image");
+                        });
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            // Handle the case where no image is selected
+            Utility.showToast(DiaryDetailsActivity.this, "Please select an image");
+        }
     }
     public void deleteDiaryFromFireBase()
     {
@@ -121,5 +189,18 @@ public class DiaryDetailsActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == GALLERY_REQ_CODE)
+            {
+                // for gallery
+                selectedImageUri = data.getData();
+                changingImg.setImageURI(data.getData());
+            }
+        }
+    }
+}

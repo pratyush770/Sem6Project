@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         imgBtn = findViewById(R.id.menuBtn);
         floatingActionButton.setOnClickListener((v)->startActivity(new Intent(MainActivity.this, DiaryDetailsActivity.class)));
         imgBtn.setOnClickListener((v)->showMenu());
+        FirebaseApp.initializeApp(this);
         setUpRecyclerView();
     }
     public void showMenu()

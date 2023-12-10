@@ -67,19 +67,45 @@
             android:textSize="22sp"
             android:textStyle="normal" />
 
-        <EditText
-            android:id="@+id/editTextText5"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:ems="10"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="top"
-            android:hint="Dear Diary"
-            android:inputType="textMultiLine"
-            android:paddingBottom="20dp"
-            android:textSize="22sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTextText5"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="top"
+                android:hint="Dear Diary"
+                android:inputType="textMultiLine"
+                android:paddingBottom="20dp"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/changingImg"
+                android:layout_width="match_parent"
+                android:layout_height="313dp"
+                android:layout_marginTop="-380dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/baseline_burst_mode_24"
+                android:backgroundTint="#686868"
+                android:foreground="@drawable/baseline_burst_mode_24"
+                android:foregroundTint="#858383"
+                app:cornerRadius="10dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView
