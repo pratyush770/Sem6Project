@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNotesWriteYourOwnNotes"
         tools:targetApi="31">
+
         <activity
             android:name=".DiaryDetailsActivity"
             android:exported="false" />
@@ -36,6 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:process=":remote"
+            android:name=".ReminderReceiver"/>
     </application>
 
 </manifest>
