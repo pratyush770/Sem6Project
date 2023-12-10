@@ -132,35 +132,23 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteDiaryFromFireBase() {
+    public void deleteDiaryFromFireBase()
+    {
         DocumentReference documentReference;
         documentReference = Utility.getCollectionReferenceForNotes().document(docId);
-
-        // Get the StorageReference for the image associated with the diary entry
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                .child("diary_images/" + docId + ".jpg");
-
-        // Delete the image from Firebase Storage
-        storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // Image deleted successfully, now delete the diary entry
-                    documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // Diary entry deleted successfully
-                                finish();
-                            } else {
-                                // Diary entry not deleted
-                                Utility.showToast(DiaryDetailsActivity.this, "Failed to delete note");
-                            }
-                        }
-                    });
-                } else {
-                    // Image deletion failed
-                    Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
+                if(task.isSuccessful())
+                {
+                    // note is added in the database
+                    // Utility.showToast(NoteDetailsActivity.this,"Note deleted successfully");
+                    finish();
+                }
+                else
+                {
+                    // note is not added in the database
+                    Utility.showToast(DiaryDetailsActivity.this,"Failed to delete note");
                 }
             }
         });

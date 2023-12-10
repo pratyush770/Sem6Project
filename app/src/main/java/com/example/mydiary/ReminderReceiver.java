@@ -33,7 +33,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "diary_channel")
-                .setSmallIcon(R.drawable.diary) // Set your notification icon
+                .setSmallIcon(R.drawable.diary1) // Set your notification icon
                 .setContentTitle("Diary Reminder")
                 .setContentText("Don't forget to write in your diary!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
