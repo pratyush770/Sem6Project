@@ -41,15 +41,11 @@ public class MainActivity extends AppCompatActivity {
         imgBtn.setOnClickListener((v)->showMenu());
         FirebaseApp.initializeApp(this);
         setUpRecyclerView();
-        // Set up the alarm for 8 PM
-        setReminderAlarm();
-
     }
     public void showMenu()
     {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
-        popupMenu.getMenu().add("Upload"); // adds upload to the popup menu
         popupMenu.getMenu().add("Logout");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -61,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
                     return true;
-                }
-                if(item.getTitle()=="Upload")
-                {
-
                 }
                 return false;
             }
@@ -96,35 +88,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         diaryAdapter.notifyDataSetChanged();
-    }
-    private void setReminderAlarm() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        // Set the alarm to trigger at 8 PM every day
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 20); // 8 PM
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        // Use setRepeating() to repeat the alarm every day
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-        );
-
-        // Set the flag in SharedPreferences to indicate that the alarm is set
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isAlarmSet", true);
-        editor.apply();
     }
 }
