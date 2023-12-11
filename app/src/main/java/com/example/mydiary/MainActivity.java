@@ -43,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
         setUpRecyclerView();
         // Set up the alarm for 8 PM
         setReminderAlarm();
+
     }
     public void showMenu()
     {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
-        popupMenu.getMenu().add("Logout");  // adds logout to the popup menu
+        popupMenu.getMenu().add("Upload"); // adds upload to the popup menu
+        popupMenu.getMenu().add("Logout");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -59,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
                     return true;
+                }
+                if(item.getTitle()=="Upload")
+                {
+
                 }
                 return false;
             }

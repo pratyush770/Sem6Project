@@ -69,6 +69,18 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                 // Clear the selected image
                 selectedImageUri = null;
                 changingImg.setImageDrawable(null); // Clear the ImageView
+                // Delete the image from Firebase Storage if in edit mode
+                if (isEditMode && docId != null && !docId.isEmpty()) {
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                            .child("diary_images/" + docId + ".jpg");
+
+                    storageReference.delete().addOnSuccessListener(aVoid -> {
+                        // Image deleted successfully from Firebase Storage
+                    }).addOnFailureListener(exception -> {
+                        // Handle errors during image deletion
+                        Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
+                    });
+                }
             }
         });
 
