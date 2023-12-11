@@ -67,8 +67,8 @@ public class SplashActivity extends AppCompatActivity {
 
         // Set the alarm to trigger at 8 PM every day
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23); // 8 PM
-        calendar.set(Calendar.MINUTE, 7);
+        calendar.set(Calendar.HOUR_OF_DAY, 20); // 8 PM
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         // Use setRepeating() to repeat the alarm every day
