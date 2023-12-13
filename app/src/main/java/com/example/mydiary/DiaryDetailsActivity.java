@@ -78,7 +78,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                         // Image deleted successfully from Firebase Storage
                     }).addOnFailureListener(exception -> {
                         // Handle errors during image deletion
-                        Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
+//                        Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
                     });
                 }
             }
