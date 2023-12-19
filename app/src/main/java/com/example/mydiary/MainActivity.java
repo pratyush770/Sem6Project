@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -15,13 +18,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.Query;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ImageView imgBtn;
     DiaryAdapter diaryAdapter;
+    EditText searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
         imgBtn.setOnClickListener((v)->showMenu());
         FirebaseApp.initializeApp(this);
         setUpRecyclerView();
+        searchEditText = findViewById(R.id.editTextText2);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for this example
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Update the query based on the search text
+                updateSearchQuery(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for this example
+            }
+        });
+
+
     }
     public void showMenu()
     {
@@ -89,4 +112,24 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         diaryAdapter.notifyDataSetChanged();
     }
+
+    private void updateSearchQuery(String searchText) {
+        // Modify the query based on the search text
+        Query query;
+        if (TextUtils.isEmpty(searchText)) {
+            // If search text is empty, show all notes
+            query = Utility.getCollectionReferenceForNotes().orderBy("timestamp", Query.Direction.DESCENDING);
+        } else {
+            query = Utility.getCollectionReferenceForNotes()
+                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .whereGreaterThanOrEqualTo("title", searchText)
+                    .whereLessThanOrEqualTo("title", searchText + "\uf8ff");
+        }
+
+        FirestoreRecyclerOptions<Diary> options = new FirestoreRecyclerOptions.Builder<Diary>()
+                .setQuery(query, Diary.class).build();
+        diaryAdapter.updateOptions(options); // Add this method to your DiaryAdapter class
+    }
+
+
 }

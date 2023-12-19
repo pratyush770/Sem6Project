@@ -93,7 +93,7 @@
         android:background="@drawable/rounded_text"
         android:ems="10"
         android:fontFamily="sans-serif-medium"
-        android:hint="Search "
+        android:hint="Search by title"
         android:inputType="text"
         android:paddingStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
