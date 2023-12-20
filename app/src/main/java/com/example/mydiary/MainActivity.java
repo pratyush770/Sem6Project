@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
-        popupMenu.getMenu().add("Logout");
         popupMenu.getMenu().add("User Agreement");
+        popupMenu.getMenu().add("Logout");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
