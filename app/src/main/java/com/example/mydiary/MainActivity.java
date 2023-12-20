@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
         popupMenu.getMenu().add("Logout");
+        popupMenu.getMenu().add("User Agreement");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -79,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
+                    return true;
+                }
+                if(item.getTitle()=="User Agreement")
+                {
+                    startActivity(new Intent(MainActivity.this, UserAgreementActivity.class));
                     return true;
                 }
                 return false;

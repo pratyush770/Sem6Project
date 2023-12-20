@@ -5,10 +5,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -21,6 +22,9 @@
         android:theme="@style/Theme.MyNotesWriteYourOwnNotes"
         tools:targetApi="31">
         <activity
+            android:name=".UserAgreementActivity"
+            android:exported="false" />
+        <activity
             android:name=".DiaryDetailsActivity"
             android:exported="false" />
         <activity
@@ -32,7 +36,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -42,9 +46,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
-            android:process=":remote"
-            android:name=".ReminderReceiver" />
+            android:name=".ReminderReceiver"
+            android:process=":remote" />
     </application>
 
 </manifest>
