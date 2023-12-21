@@ -1,6 +1,7 @@
 package com.example.mydiary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,12 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,6 +132,4 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(query, Diary.class).build();
         diaryAdapter.updateOptions(options); // Add this method to your DiaryAdapter class
     }
-
-
 }
