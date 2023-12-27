@@ -1,15 +1,18 @@
 package com.example.mydiary;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -132,4 +135,32 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(query, Diary.class).build();
         diaryAdapter.updateOptions(options); // Add this method to your DiaryAdapter class
     }
+
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("MyDiary");
+        builder.setIcon(R.drawable.diary1);
+        builder.setMessage("Do you really want to exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setCancelable(false);
+        AlertDialog alertDialog = builder.show();
+        alertDialog.getWindow().setGravity(Gravity.BOTTOM);
+    };
 }

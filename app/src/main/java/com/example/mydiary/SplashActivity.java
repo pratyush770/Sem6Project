@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
                 this,
                 0,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         // Set the alarm to trigger at 8 PM every day
