@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showViewDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.diary1);
         builder.setTitle("File Saved");
         builder.setMessage("Notes saved as MyDiaryNotes.txt");
         builder.setCancelable(false);
