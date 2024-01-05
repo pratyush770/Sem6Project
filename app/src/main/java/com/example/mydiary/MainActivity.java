@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.diary1);
         builder.setTitle("File Saved");
-        builder.setMessage("Notes saved as MyDiaryNotes.txt");
+        builder.setMessage("Path : /storage/Android/data/com.example.mydiary/files");
         builder.setCancelable(false);
         builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
             @Override
