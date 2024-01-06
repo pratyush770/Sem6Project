@@ -177,18 +177,14 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         }
 
         if (imageUri != null) {
-            // Compress the image before uploading
+            // Upload the image to Firebase Storage
             try {
-                Bitmap yourBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                yourBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                // Upload the compressed image to Firebase Storage
+                // Get the reference to the Firebase Storage
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                         .child("diary_images/" + documentReference.getId() + ".jpg");
 
-                storageReference.putBytes(data)
+                // Upload the image to Firebase Storage
+                storageReference.putFile(imageUri)
                         .addOnSuccessListener(taskSnapshot -> {
                             // Get the download URL of the uploaded image
                             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -211,10 +207,11 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                             // Handle errors during image upload
                             Utility.showToast(DiaryDetailsActivity.this, "Failed to upload image");
                         });
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             // No image selected, set other diary fields and update the database
             documentReference.set(diary).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
