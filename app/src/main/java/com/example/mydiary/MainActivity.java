@@ -69,15 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 // Not needed for this example
             }
         });
-
-
     }
     public void showMenu()
     {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
-//        popupMenu.getMenu().add("Save as Text Document");
-        popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -90,16 +86,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     return true;
                 }
-                if(item.getTitle()=="User Agreement")
-                {
-                    startActivity(new Intent(MainActivity.this, UserAgreementActivity.class));
-                    return true;
-                }
-//                if(item.getTitle()=="Save as Text Document")
-//                {
-//                    saveAsTextDocument();
-//                    return true;
-//                }
                 return false;
             }
         });
@@ -150,97 +136,7 @@ public class MainActivity extends AppCompatActivity {
         diaryAdapter.updateOptions(options); // Add this method to your DiaryAdapter class
     }
 
-//    @Override
-//    public void onBackPressed(){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("MyDiary");
-//        builder.setIcon(R.drawable.diary1);
-//        builder.setMessage("Do you really want to exit?");
-//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                finish();
-//            }
-//        });
-//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//            }
-//        });
-//        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//        builder.setCancelable(false);
-//        AlertDialog alertDialog = builder.show();
-//        alertDialog.getWindow().setGravity(Gravity.BOTTOM);
-//    };
-
-//    private void saveAsTextDocument() {
-//        // Generate the text content for the document
-//        StringBuilder textContent = new StringBuilder();
-//
-//        for (Diary diary : diaryAdapter.getSnapshots()) {
-//            // Append each note's title and content to the text content
-//            textContent.append(diary.getTitle()).append("\n\n");
-//            textContent.append(diary.getContent()).append("\n\n\n");
-//        }
-//
-//        // Save the text content to a text file in the external storage
-//        File externalDir = getExternalFilesDir(null);
-//        textFile = new File(externalDir, "MyDiaryNotes.txt"); // Update the class field
-//
-//        try {
-//            FileWriter fileWriter = new FileWriter(textFile);
-//            fileWriter.write(textContent.toString());
-//            fileWriter.close();
-//
-//            // Inform the user that the file has been saved
-//            showViewDialog();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            showToast("Error saving notes");
-//        }
-//    }
-
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-//    private void showViewDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setIcon(R.drawable.diary1);
-//        builder.setTitle("File Saved");
-//        builder.setMessage("Path : /storage/Android/data/com.example.mydiary/files");
-//        builder.setCancelable(false);
-//        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                // Open the text file
-//                openTextFile(textFile);
-//            }
-//        });
-//        builder.setNegativeButton("Dismiss", null);
-//        builder.show();
-//    }
-
-//    private void openTextFile(File file) {
-//        // Create an intent to open the file
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        Uri uri = FileProvider.getUriForFile(
-//                this,
-//                "com.example.mydiary.fileprovider",  // Replace with your app's file provider authority
-//                file
-//        );
-//        intent.setDataAndType(uri, "text/plain");
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//
-//        try {
-//            startActivity(intent);
-//        } catch (ActivityNotFoundException e) {
-//            showToast("No app available to view text files");
-//        }
-//    }
 }
