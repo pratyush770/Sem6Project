@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
+
 
     private File textFile;
     FloatingActionButton floatingActionButton;
@@ -79,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
         popupMenu.getMenu().add("Save as Text Document");
-//        popupMenu.getMenu().add("Set Reminder");
         popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
         popupMenu.show();
@@ -103,14 +104,13 @@ public class MainActivity extends AppCompatActivity {
                     saveAsTextDocument();
                     return true;
                 }
-//                if(item.getTitle()=="Set Reminder")
-//                {
-//                    return true;
-//                }
                 return false;
             }
         });
     }
+
+
+
     public void setUpRecyclerView()
     {
         Query query = Utility.getCollectionReferenceForNotes().orderBy("timestamp", Query.Direction.DESCENDING);
