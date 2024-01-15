@@ -27,7 +27,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class DiaryDetailsActivity extends AppCompatActivity {
     EditText title,content;
@@ -100,7 +102,8 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         diary.setContent(ncontent);
 
         // Set the timestamp to the current time
-        diary.setTimestamp(new Timestamp(new Date()));
+        Timestamp currentTimestamp = new Timestamp(new Date());
+        diary.setTimestamp(currentTimestamp);
 
         if (selectedImageUri != null) {
             // If an image is selected, save it to Firebase
@@ -110,6 +113,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
             saveDiaryToFirebase(diary, null);
         }
     }
+
 
     public void deleteDiaryFromFireBase()
     {

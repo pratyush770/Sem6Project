@@ -68,37 +68,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"></androidx.recyclerview.widget.RecyclerView>
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="-15dp"
-        android:layout_weight="1"
-        android:paddingRight="310dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126"
-        app:srcCompat="@drawable/glass"
-        tools:srcCompat="@drawable/glass" />
 
     <EditText
         android:id="@+id/editTextText2"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/rounded_text"
         android:ems="10"
         android:fontFamily="sans-serif-medium"
-        android:hint="Search by title"
+        android:hint="Search by date(mm-dd-yyyy)"
         android:inputType="text"
         android:paddingStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.106" />
 
