@@ -57,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setReminderAlarm() {
+        Log.d("ReminderReceiver", "Setting reminder alarm");
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, ReminderReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
@@ -65,6 +66,7 @@ public class SplashActivity extends AppCompatActivity {
                 intent,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
         );
+        Log.d("ReminderReceiver", "PendingIntent created");
 
         // Set the alarm to trigger at 8 PM every day
         Calendar calendar = Calendar.getInstance();

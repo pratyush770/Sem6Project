@@ -6,14 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 public class ReminderReceiver extends BroadcastReceiver {
 
+    private static final int NOTIFICATION_ID = 1;
     @Override
     public void onReceive(Context context, Intent intent) {
         // Show a notification to remind the user to write in the diary
+        Log.d("ReminderReceiver", "Received broadcast");
         showNotification(context);
     }
 
@@ -42,7 +45,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         // Show the notification
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void createNotificationChannel(Context context) {
