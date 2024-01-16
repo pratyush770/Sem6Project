@@ -29,4 +29,9 @@
     <string name="use2">1.2 You will not use the MyDiary App to violate any laws or regulations in your jurisdiction.</string>
     <string name="end">By using the MyDiary App, you acknowledge that you have read, understood, and agree to be bound by the
         terms and conditions of this Agreement.</string>
+    <string name="private_place">a private place for your</string>
+    <string name="private_place2">thoughts</string>
+    <string name="photos"><b>ADD PHOTOS</b> to speak</string>
+    <string name="photos2">a thousand words</string>
+    <string name="capture">Only 5 minutes every day, capture your life moments</string>
 </resources>

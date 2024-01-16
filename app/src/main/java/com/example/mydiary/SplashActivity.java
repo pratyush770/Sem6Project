@@ -31,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if(currentUser == null) {
                     Log.d("tag", "No user found, redirecting to LoginActivity");
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, AfterSplash1.class));
                 } else {
                     Log.d("tag", "User found, redirecting to MainActivity");
 
