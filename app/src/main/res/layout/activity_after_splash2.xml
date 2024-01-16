@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FDF4E9"
+    android:background="#EEECF8"
     tools:context=".AfterSplash2">
 
     <Button
@@ -13,7 +13,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="#B55E34"
+        android:backgroundTint="#9955bb"
         android:text="Continue"
         android:textSize="22sp"
         app:cornerRadius="10dp"

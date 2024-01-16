@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6B050"
+    android:background="#7b68ee"
     tools:context=".DiaryDetailsActivity">
 
     <TextView
@@ -93,36 +93,36 @@
                 android:layout_marginTop="-235dp"
                 android:layout_marginBottom="20dp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="-24dp"
-                            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-24dp"
+                android:orientation="horizontal">
 
-                            <Button
-                                android:id="@+id/button1"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="25dp"
-                                android:layout_marginTop="20dp"
-                                android:background="@drawable/baseline_burst_mode_24"
-                                android:backgroundTint="#686868"
-                                android:foreground="@drawable/baseline_burst_mode_24"
-                                android:foregroundTint="#858383"
-                                app:cornerRadius="10dp" />
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/baseline_burst_mode_24"
+                    android:backgroundTint="#686868"
+                    android:foreground="@drawable/baseline_burst_mode_24"
+                    android:foregroundTint="#858383"
+                    app:cornerRadius="10dp" />
 
-                            <Button
-                                android:id="@+id/clearImageButton"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="20dp"
-                                android:background="@drawable/baseline_delete_24"
-                                android:backgroundTint="#686868"
-                                android:foreground="@drawable/baseline_delete_24"
-                                android:foregroundTint="#858383"
-                                app:cornerRadius="10dp" />
-                        </LinearLayout>
+                <Button
+                    android:id="@+id/clearImageButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/baseline_delete_24"
+                    android:backgroundTint="#686868"
+                    android:foreground="@drawable/baseline_delete_24"
+                    android:foregroundTint="#858383"
+                    app:cornerRadius="10dp" />
+            </LinearLayout>
 
         </LinearLayout>
 

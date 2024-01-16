@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FDF4E9"
+    android:background="#EEECF8"
     tools:context=".CreateAccountActivity">
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="167dp"
-        android:layout_height="174dp"
+        android:layout_width="224dp"
+        android:layout_height="244dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/user_login" />
 
     <TextView
@@ -97,7 +98,7 @@
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="-50dp"
-        android:backgroundTint="#B55E34"
+        android:backgroundTint="#9955bb"
         android:text="@string/create"
         android:textSize="22dp"
         app:cornerRadius="10dp"
@@ -114,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="-110dp"
-        android:indeterminateTint="#B55E34"
+        android:indeterminateTint="#7b68ee"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

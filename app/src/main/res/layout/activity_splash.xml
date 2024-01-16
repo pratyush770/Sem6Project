@@ -5,13 +5,13 @@
     android:id="@+id/size"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FDF4E9"
+    android:background="#EEECF8"
     tools:context=".SplashActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="408dp"
-        android:layout_height="415dp"
+        android:layout_width="280dp"
+        android:layout_height="254dp"
         android:contentDescription="splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="#B55E34"
+        android:indeterminateTint="#7b68ee"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
