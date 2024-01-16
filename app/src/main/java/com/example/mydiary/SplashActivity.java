@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 finish();  // when we go back, it terminates the activity
             }
-        }, 1500);
+        }, 2500);
     }
 
     private void setReminderAlarm() {
