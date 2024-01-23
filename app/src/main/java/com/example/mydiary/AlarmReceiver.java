@@ -34,7 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.noti)
                 .setContentTitle("Diary Reminder")
                 .setContentText("Don't forget to write in your diary!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent) // Set the intent to be triggered when the notification is clicked
                 .setAutoCancel(true); // Automatically remove the notification when clicked
 
