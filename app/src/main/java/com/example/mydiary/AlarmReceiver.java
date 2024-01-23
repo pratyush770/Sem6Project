@@ -24,12 +24,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void showNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.noti)
                 .setContentTitle("Diary Reminder")
                 .setContentText("Don't forget to write in your diary!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify((int) System.currentTimeMillis(), builder.build());
     }
 
     private boolean hasNotificationPermission(Context context) {

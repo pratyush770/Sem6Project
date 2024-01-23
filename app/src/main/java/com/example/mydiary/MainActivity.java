@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
     {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
-//        popupMenu.getMenu().add("Save as Text Document");
+        popupMenu.getMenu().add("Set Reminder");
+        //        popupMenu.getMenu().add("Save as Text Document");
         popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
-        popupMenu.getMenu().add("Set Reminder");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
