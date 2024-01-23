@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 },
                 hour,
                 minute,
-                true // 24-hour format
+                false// 24-hour format
         );
 
         // Show the TimePickerDialog
