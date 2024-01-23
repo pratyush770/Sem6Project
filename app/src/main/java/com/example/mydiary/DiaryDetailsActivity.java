@@ -36,7 +36,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
     ImageView saveBtn,changingImg;
     TextView pageTitle; // used to change the title when user edits the note
     String getTitle,getContent,docId;
-    Button btn,clearImageButton;
+//    Button btn,clearImageButton;
     boolean isEditMode = false;
     TextView delete;
     private final int GALLERY_REQ_CODE = 1000;
@@ -53,38 +53,38 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         pageTitle = findViewById(R.id.textView3);
         delete = findViewById(R.id.textView6);
         changingImg = findViewById(R.id.changingImg);
-        btn = findViewById(R.id.button1);
-        clearImageButton = findViewById(R.id.clearImageButton); // Initialize the clearImageButton
+//        btn = findViewById(R.id.button1);
+//        clearImageButton = findViewById(R.id.clearImageButton); // Initialize the clearImageButton
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery,GALLERY_REQ_CODE);
-            }
-        });
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent iGallery = new Intent(Intent.ACTION_PICK);
+//                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(iGallery,GALLERY_REQ_CODE);
+//            }
+//        });
 //         Set the onClickListener for clearing the selected image
-        clearImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Clear the selected image
-                selectedImageUri = null;
-                changingImg.setImageDrawable(null); // Clear the ImageView
-                // Delete the image from Firebase Storage if in edit mode
-                if (isEditMode && docId != null && !docId.isEmpty()) {
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                            .child("diary_images/" + docId + ".jpg");
-
-                    storageReference.delete().addOnSuccessListener(aVoid -> {
-                        // Image deleted successfully from Firebase Storage
-                    }).addOnFailureListener(exception -> {
-                        // Handle errors during image deletion
-//                        Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
-                    });
-                }
-            }
-        });
+//        clearImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Clear the selected image
+//                selectedImageUri = null;
+//                changingImg.setImageDrawable(null); // Clear the ImageView
+//                // Delete the image from Firebase Storage if in edit mode
+//                if (isEditMode && docId != null && !docId.isEmpty()) {
+//                    StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+//                            .child("diary_images/" + docId + ".jpg");
+//
+//                    storageReference.delete().addOnSuccessListener(aVoid -> {
+//                        // Image deleted successfully from Firebase Storage
+//                    }).addOnFailureListener(exception -> {
+//                        // Handle errors during image deletion
+////                        Utility.showToast(DiaryDetailsActivity.this, "Failed to delete image");
+//                    });
+//                }
+//            }
+//        });
         // receive data of specific note
         getTitle = getIntent().getStringExtra("title");
         getContent = getIntent().getStringExtra("content");

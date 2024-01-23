@@ -1,27 +1,38 @@
 package com.example.mydiary;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import android.Manifest;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-import androidx.core.content.FileProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.content.ActivityNotFoundException;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.EditText;
 import android.view.MenuItem;
@@ -45,11 +56,16 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgBtn;
     DiaryAdapter diaryAdapter;
     EditText searchEditText;
+    private static final String CHANNEL_ID = "AlarmDemoChannel";
+    private static final String WAKE_LOCK_PERMISSION = Manifest.permission.WAKE_LOCK;
+    private static final int MY_PERMISSIONS_REQUEST_WAKE_LOCK = 123;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
         floatingActionButton = findViewById(R.id.floatingActionButton);
         recyclerView = findViewById(R.id.recyclerView);
         imgBtn = findViewById(R.id.menuBtn);
@@ -83,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 //        popupMenu.getMenu().add("Save as Text Document");
         popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
+        popupMenu.getMenu().add("Set Reminder");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -104,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
 //                    saveAsTextDocument();
 //                    return true;
 //                }
+                if(item.getTitle()=="Set Reminder")
+                {
+                    showTimePickerDialog();
+                    return true;
+                }
                 return false;
             }
         });
@@ -274,4 +296,123 @@ public class MainActivity extends AppCompatActivity {
 //            showToast("No app available to view text files");
 //        }
 //    }
+
+
+    private void showTimePickerDialog() {
+        // Get the current time
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+
+        // Create a TimePickerDialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                (view, selectedHour, selectedMinute) -> {
+                    // Handle the selected time (e.g., set an alarm)
+                    setAlarm(selectedHour, selectedMinute);
+                },
+                hour,
+                minute,
+                true // 24-hour format
+        );
+
+        // Show the TimePickerDialog
+        timePickerDialog.show();
+    }
+
+    private void setAlarm(int hour, int minute) {
+        try {
+            // Check for the WAKE_LOCK permission before proceeding
+            if (ContextCompat.checkSelfPermission(this, WAKE_LOCK_PERMISSION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is granted, proceed with setting the repeating alarm
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                if (alarmManager != null) {
+                    Intent intent = new Intent(this, AlarmReceiver.class);
+                    PendingIntent pendingIntent;
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        pendingIntent = PendingIntent.getBroadcast(
+                                this,
+                                0,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                        );
+                    } else {
+                        pendingIntent = PendingIntent.getBroadcast(
+                                this,
+                                0,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                    }
+
+                    Calendar alarmTime = Calendar.getInstance();
+                    alarmTime.set(Calendar.HOUR_OF_DAY, hour);
+                    alarmTime.set(Calendar.MINUTE, minute);
+                    alarmTime.set(Calendar.SECOND, 0);
+
+                    // Set the alarm to repeat every 24 hours
+                    long intervalMillis = AlarmManager.INTERVAL_DAY; // 24 hours in milliseconds
+                    alarmManager.setRepeating(
+                            AlarmManager.RTC_WAKEUP,
+                            alarmTime.getTimeInMillis(),
+                            intervalMillis,
+                            pendingIntent
+                    );
+
+                    Toast.makeText(this, "Alarm set for " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
+                } else {
+                    // Log an error message
+                    Log.e("AlarmDemo", "AlarmManager is null");
+                    Toast.makeText(this, "Error setting alarm: AlarmManager is null", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Permission is not granted, request it from the user
+                ActivityCompat.requestPermissions(this,
+                        new String[]{WAKE_LOCK_PERMISSION},
+                        MY_PERMISSIONS_REQUEST_WAKE_LOCK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Log the exception
+            Log.e("AlarmDemo", "Error setting alarm: " + e.getMessage());
+            Toast.makeText(this, "Error setting alarm: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because NotificationChannel is a new feature
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "AlarmDemoChannel";
+            String description = "Channel for AlarmDemo";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            // Register the channel with the system
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_PERMISSIONS_REQUEST_WAKE_LOCK) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can now proceed with setting the alarm
+            } else {
+                // Permission denied, handle accordingly
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
