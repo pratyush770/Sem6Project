@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
                             pendingIntent
                     );
 
-                    Toast.makeText(this, "Alarm set for " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Reminder set for " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
                 } else {
                     // Log an error message
                     Log.e("AlarmDemo", "AlarmManager is null");
