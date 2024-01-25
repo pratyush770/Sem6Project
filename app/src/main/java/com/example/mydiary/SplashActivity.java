@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,10 +14,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private ProgressBar mProgressBar;
+    private int mProgressStatus = 0;
+    private Handler mHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mProgressBar = findViewById(R.id.progressBar);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -32,7 +37,22 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 finish();  // when we go back, it terminates the activity
             }
-        }, 2500);
+        }, 3000);
+        updateProgressBar();
     }
-
+    private void updateProgressBar() {
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < 100) {
+                    mProgressStatus++;
+                    android.os.SystemClock.sleep(30); // Simulate doing some work
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            mProgressBar.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 }
