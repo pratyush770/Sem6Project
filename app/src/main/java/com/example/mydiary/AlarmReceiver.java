@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -31,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.noti)
+                .setSmallIcon(R.drawable.noti_icon)
                 .setContentTitle("Diary Reminder")
                 .setContentText("Don't forget to write in your diary!")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
