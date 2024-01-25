@@ -25,7 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void showNotification(Context context) {
         // Create an explicit intent for launching your app when the notification is clicked
-        Intent launchIntent = new Intent(context, MainActivity.class); // Replace YourMainActivity with the main activity of your app
+        Intent launchIntent = new Intent(context, SplashActivity.class); // Replace YourMainActivity with the main activity of your app
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_IMMUTABLE);
 
