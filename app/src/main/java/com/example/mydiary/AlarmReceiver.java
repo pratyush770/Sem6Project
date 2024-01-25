@@ -30,10 +30,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent launchIntent = new Intent(context, SplashActivity.class); // Replace YourMainActivity with the main activity of your app
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_IMMUTABLE);
-
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.diary1);
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.noti_icon)
+                .setLargeIcon(largeIconBitmap)
                 .setContentTitle("Diary Reminder")
                 .setContentText("Don't forget to write in your diary!")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
