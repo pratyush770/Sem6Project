@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import android.Manifest;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +16,7 @@ import java.util.Date;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,10 +26,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -98,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
         popupMenu.getMenu().add("Set Reminder");
-        //        popupMenu.getMenu().add("Save as Text Document");
+//        popupMenu.getMenu().add("Save as Text Document");
         popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
         popupMenu.show();

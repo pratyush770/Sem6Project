@@ -54,7 +54,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         delete = findViewById(R.id.textView6);
         changingImg = findViewById(R.id.changingImg);
 //        btn = findViewById(R.id.button1);
-//        clearImageButton = findViewById(R.id.clearImageButton); // Initialize the clearImageButton
+//        clearImageButton = findViewById(R.id.clearImage); // Initialize the clearImageButton
 //
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
