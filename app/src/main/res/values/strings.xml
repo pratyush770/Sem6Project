@@ -5,8 +5,8 @@
     <string name="login">Login to your account</string>
     <string name="create">CREATE ACCOUNT</string>
     <string name="loginbtn">LOGIN</string>
-    <string name="account">Already have an account?</string>
-    <string name="account1">Don\'t have an account?</string>
+    <string name="account">Already have an account? <b>Login</b></string>
+    <string name="account1">Don\'t have an account?  <b>Signup</b></string>
     <string name="add">Add New Entry</string>
     <string name="notes">Your Entries</string>
     <string name="delete">Delete Entry</string>

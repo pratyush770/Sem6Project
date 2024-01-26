@@ -32,9 +32,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         pass = findViewById(R.id.editText2);
         conpass = findViewById(R.id.editText3);
         create = findViewById(R.id.button2);
-        login = findViewById(R.id.textView5);
+        login = findViewById(R.id.textView4);
         progressBar = findViewById(R.id.progressBar2);
-
+//
         create.setOnClickListener(v->createAccount());  // lambda function
         login.setOnClickListener(v->finish());
     }

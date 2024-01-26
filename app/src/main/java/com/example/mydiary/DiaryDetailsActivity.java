@@ -55,7 +55,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         changingImg = findViewById(R.id.changingImg);
 //        btn = findViewById(R.id.button1);
 //        clearImageButton = findViewById(R.id.clearImageButton); // Initialize the clearImageButton
-
+//
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -64,7 +64,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
 //                startActivityForResult(iGallery,GALLERY_REQ_CODE);
 //            }
 //        });
-//         Set the onClickListener for clearing the selected image
+////         Set the onClickListener for clearing the selected image
 //        clearImageButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

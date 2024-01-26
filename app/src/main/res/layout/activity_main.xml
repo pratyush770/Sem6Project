@@ -70,7 +70,7 @@
 
     <EditText
         android:id="@+id/editTextText2"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/rounded_text"
@@ -83,7 +83,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.106"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
