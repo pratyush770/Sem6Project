@@ -50,6 +50,7 @@ import com.google.firebase.firestore.Query;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final int MY_PERMISSIONS_REQUEST_NOTIFICATION = 123;
     private File textFile;
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
@@ -304,6 +305,17 @@ public class MainActivity extends AppCompatActivity {
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         int minute = currentTime.get(Calendar.MINUTE);
 
+        // Check if notification permission is granted
+        if (hasNotificationPermission()) {
+            // Permission is granted, proceed with showing the TimePickerDialog
+            createTimePickerDialog(hour, minute);
+        } else {
+            // Permission is not granted, request it from the user
+            requestNotificationPermission();
+        }
+    }
+
+    private void createTimePickerDialog(int hour, int minute) {
         // Create a TimePickerDialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
@@ -313,13 +325,29 @@ public class MainActivity extends AppCompatActivity {
                 },
                 hour,
                 minute,
-                false// 24-hour format
+                false // 24-hour format
         );
 
         // Show the TimePickerDialog
         timePickerDialog.show();
     }
+    private boolean hasNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission("android.permission.POST_NOTIFICATIONS")
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            // On earlier versions, the permission is granted at installation time
+            return true;
+        }
+    }
 
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                    new String[]{"android.permission.POST_NOTIFICATIONS"},
+                    MY_PERMISSIONS_REQUEST_NOTIFICATION);
+        }
+    }
     private void setAlarm(int hour, int minute) {
         try {
             // Check for the WAKE_LOCK permission before proceeding
@@ -402,16 +430,16 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == MY_PERMISSIONS_REQUEST_WAKE_LOCK) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_NOTIFICATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, you can now proceed with setting the alarm
+                // Permission granted, show the TimePickerDialog
+                showTimePickerDialog();
             } else {
-                // Permission denied, handle accordingly
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                // Permission denied, notify the user
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
