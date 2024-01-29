@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         // Display logout button on menu
         PopupMenu popupMenu = new PopupMenu(MainActivity.this,imgBtn);
         popupMenu.getMenu().add("Set Reminder");
-//        popupMenu.getMenu().add("Save as Text Document");
+        popupMenu.getMenu().add("Save as Text Document");
         popupMenu.getMenu().add("User Agreement");
         popupMenu.getMenu().add("Logout");
         popupMenu.show();
@@ -122,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, UserAgreementActivity.class));
                     return true;
                 }
-//                if(item.getTitle()=="Save as Text Document")
-//                {
-//                    saveAsTextDocument();
-//                    return true;
-//                }
+                if(item.getTitle()=="Save as Text Document")
+                {
+                    saveAsTextDocument();
+                    return true;
+                }
                 if(item.getTitle()=="Set Reminder")
                 {
                     showTimePickerDialog();
@@ -243,65 +243,65 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.show();
         alertDialog.getWindow().setGravity(Gravity.BOTTOM);
     };
-//    private void saveAsTextDocument() {
-//        // Generate the text content for the document
-//        StringBuilder textContent = new StringBuilder();
-//
-//        for (Diary diary : diaryAdapter.getSnapshots()) {
-//            // Append each note's title and content to the text content
-//            textContent.append(diary.getTitle()).append("\n\n");
-//            textContent.append(diary.getContent()).append("\n\n\n");
-//        }
-//
-//        // Save the text content to a text file in the external storage
-//        File externalDir = getExternalFilesDir(null);
-//        textFile = new File(externalDir, "MyDiaryNotes.txt"); // Update the class field
-//
-//        try {
-//            FileWriter fileWriter = new FileWriter(textFile);
-//            fileWriter.write(textContent.toString());
-//            fileWriter.close();
-//
-//            // Inform the user that the file has been saved
-//            showViewDialog();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            showToast("Error saving notes");
-//        }
-//    }
-//    private void showViewDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setIcon(R.drawable.diary1);
-//        builder.setTitle("File Saved");
-//        builder.setMessage("Path : /storage/Android/data/com.example.mydiary/files");
-//        builder.setCancelable(false);
-//        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                // Open the text file
-//                openTextFile(textFile);
-//            }
-//        });
-//        builder.setNegativeButton("Dismiss", null);
-//        builder.show();
-//    }
-//    private void openTextFile(File file) {
-//        // Create an intent to open the file
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        Uri uri = FileProvider.getUriForFile(
-//                this,
-//                "com.example.mydiary.fileprovider",  // Replace with your app's file provider authority
-//                file
-//        );
-//        intent.setDataAndType(uri, "text/plain");
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//
-//        try {
-//            startActivity(intent);
-//        } catch (ActivityNotFoundException e) {
-//            showToast("No app available to view text files");
-//        }
-//    }
+    private void saveAsTextDocument() {
+        // Generate the text content for the document
+        StringBuilder textContent = new StringBuilder();
+
+        for (Diary diary : diaryAdapter.getSnapshots()) {
+            // Append each note's title and content to the text content
+            textContent.append(diary.getTitle()).append("\n\n");
+            textContent.append(diary.getContent()).append("\n\n\n");
+        }
+
+        // Save the text content to a text file in the external storage
+        File externalDir = getExternalFilesDir(null);
+        textFile = new File(externalDir, "MyDiaryNotes.txt"); // Update the class field
+
+        try {
+            FileWriter fileWriter = new FileWriter(textFile);
+            fileWriter.write(textContent.toString());
+            fileWriter.close();
+
+            // Inform the user that the file has been saved
+            showViewDialog();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showToast("Error saving notes");
+        }
+    }
+    private void showViewDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.diary1);
+        builder.setTitle("File Saved");
+        builder.setMessage("Path : /storage/Android/data/com.example.mydiary/files");
+        builder.setCancelable(false);
+        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Open the text file
+                openTextFile(textFile);
+            }
+        });
+        builder.setNegativeButton("Dismiss", null);
+        builder.show();
+    }
+    private void openTextFile(File file) {
+        // Create an intent to open the file
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(
+                this,
+                "com.example.mydiary.fileprovider",  // Replace with your app's file provider authority
+                file
+        );
+        intent.setDataAndType(uri, "text/plain");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            showToast("No app available to view text files");
+        }
+    }
 
 
     private void showTimePickerDialog() {
