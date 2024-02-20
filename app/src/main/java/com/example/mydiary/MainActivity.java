@@ -302,8 +302,6 @@ public class MainActivity extends AppCompatActivity {
             showToast("No app available to view text files");
         }
     }
-
-
     private void showTimePickerDialog() {
         // Get the current time
         Calendar currentTime = Calendar.getInstance();
@@ -415,11 +413,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Error setting alarm: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because NotificationChannel is a new feature
